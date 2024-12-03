@@ -8,6 +8,7 @@ configDotenv();
 const SignUp=async(req,res)=>{
     try {
         const{email,password,fullname}=req.body;
+        console.log(req.body);
     if(!email || !password || !fullname){
         return res.status(403).json({"message":"All Fields Mandatory"});
     }
@@ -20,6 +21,7 @@ const SignUp=async(req,res)=>{
         email,password:hashpass,fullname,
     });
     await newUser.save();
+    console.log("hogya");
     return res.status(201).json({"message": "User Register Success"}); 
     } catch (error) {
         console.log(error);
@@ -36,7 +38,7 @@ const Login= async (req,res)=>{
         if(!user){
             return res.status(404).json({"message":"Please Register First"});
         }
-        const validpass=bcrypt.compare(user.password,password);
+        const validpass=await bcrypt.compare(password,user.password);
         if(!validpass){
             return res.status(403).json({"message":"Wrong Password!"});
         }
@@ -47,7 +49,7 @@ const Login= async (req,res)=>{
         )
         return res.status(200).json({
             "message":"User Logged In",
-            "token":Token,
+            token:Token,
         });
     }
 

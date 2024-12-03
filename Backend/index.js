@@ -13,16 +13,23 @@ connectDb();
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use(cors());
+app.use(cors({origin:"*"}));
 
 app.get("/",(req,res)=>{
     res.status(200).json({"message":"Hello"});
 });
 
+app.get("/SignUp",(req,res)=>{
+    res.json({"message":"HELO"});
+});
+app.get("/LogIn",(req,res)=>{
+    res.json({"message":"HELO"});
+});
+
 
 app.post("/SignUp", SignUp);
 
-app.post("/Login",Login);
+app.post("/LogIn",Login);
 
 app.listen(process.env.PORT,()=>{
     console.log("running on http://localhost:5000");
