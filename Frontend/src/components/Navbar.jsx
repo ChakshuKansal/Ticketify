@@ -9,7 +9,8 @@ const Navbar = () => {
             <div><Link to={'/'}>Home</Link></div>
             <div><Link to={'/'}>Events</Link></div>
         </div>
-        <div className='flex items-center'>
+        <div className='flex items-center justify-between w-[260px]'>
+            <Link to={"/Admin"} className='border-2 border-white rounded-full p-4 text-xl hover:bg-blue-950'>List Your Event</Link>
             <Link to={'/SignUp'}>Register</Link>
         </div>
     </div>

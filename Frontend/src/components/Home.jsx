@@ -1,12 +1,16 @@
 import React from 'react'
 import Navbar from './Navbar'
 import Caraousel from './Caraousel'
+import Footer from './Footer'
 
 const Home = () => {
   return (
-    <div className='h-36'>
-      <Navbar/>
-      <Caraousel/>
+    <>
+    <div className='h-full'>
+
+    <Navbar/>
+    <Caraousel/>
+    <div className=''>
       <div className='mx-16'>
 
         <div className='flex h-36 p-4 text-2xl justify-between max-w-[390px]'>
@@ -43,6 +47,9 @@ const Home = () => {
 
       </div>
      </div> 
+     <Footer/>
+    </div>
+    </>
   )
 }
 
