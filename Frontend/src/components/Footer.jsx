@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-
 const Footer = () => {
-
   const [letter,setletter]=useState((""));
   const handlechange=(e)=>{
     setletter(e.target.value);
     console.log(letter);
   }
-  
   const handlesubmit=async ()=>{
     try {
       const res=await fetch("http://localhost:5000/letter",{
@@ -23,7 +20,6 @@ const Footer = () => {
       return console.log(error);
     }
   }
-
   return (
     <>
       <div className="flex flex-col items-center lg:flex-row justify-between m-6 lg:m-20 border-t-2 border-[#0C172F] p-6 gap-6">
@@ -64,7 +60,7 @@ const Footer = () => {
             There's a range of amazing experiences: from music and comedy to
             food and beverage festivals you probably have no idea about.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-4">
             <input
               className="h-10 sm:h-12 w-64 rounded-lg border border-gray-400 px-3 focus:outline-none"
               placeholder="Enter your email"
@@ -90,6 +86,9 @@ const Footer = () => {
         </p>
         <p className="mb-4">
           <strong>Curated & Handpicked Events in Online:</strong> aims to give you experiences in Online worth your time and money, and hopefully, encourage you to try something new. 
+        </p>
+        <p className="mb-4">
+          <strong>For event organizers</strong>  we sure know what goes into putting together a great experience. Our technology, marketing and customer support can help you build a community of not just ticket buyers, but also fans.
         </p>
         <div className="border-t-2 border-gray-800 mt-6 pt-4 text-center text-gray-500">
           2024 © Ticketify™ Ltd. All rights reserved.

@@ -1,5 +1,6 @@
 import React from 'react';
 import Footer from './Footer';
+import Navbar from './Navbar';
 
 const Admin = () => {
   const sections = [
@@ -84,9 +85,10 @@ const Admin = () => {
   return (
 
     <>
-    <div className="h-[90vh] flex flex-col items-center justify-center bg-center bg-cover">
+    <Navbar/>
+    <div className="h-[90vh] flex flex-col items-center justify-center bg-[url('https://4kwallpapers.com/images/walls/thumbs_2t/17018.jpg')] bg-center bg-cover">
       
-      <h1 className="text-5xl font-serif font-bold text-center mb-6">  
+      <h1 className="text-5xl font-serif font-bold text-center mb-6 text-zinc-800 p-6">  
         Publish your event in under <span className="text-red-500">five</span> minutes.
       </h1>
 
@@ -146,9 +148,9 @@ const Admin = () => {
         ))}
       </div>
     </div>
-    <div id="Clients-section" className="figures-header brands-section py-12 bg-gray-100">
+    <div className="py-12 bg-gray-100">
       <h2 className="text-5xl font-bold text-center mb-6">Our Clients</h2>
-      <div className="wrapper max-w-5xl mx-auto text-center">
+      <div className="max-w-5xl mx-auto text-center">
         <p className="text-gray-600 mb-8 text-lg">
           Trusted by India's top event organisers and artist communities
         </p>
