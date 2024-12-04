@@ -21,7 +21,7 @@ const SignUp=async(req,res)=>{
         email,password:hashpass,fullname,
     });
     await newUser.save();
-    console.log("hogya");
+    console.log("Success!");
     return res.status(201).json({"message": "User Register Success"}); 
     } catch (error) {
         console.log(error);

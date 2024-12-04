@@ -1,12 +1,10 @@
 const express=require("express");
 const app=express();
 const cors=require('cors');
-const bcrypt = require("bcrypt");
-const jwt=require("jsonwebtoken");
 const connectDb = require("./config/connectDb");
-const UserSchema = require("./models/Users");
 const { configDotenv } = require("dotenv");
 const { SignUp, Login } = require("./controllers/AuthController");
+const Subscriber = require("./controllers/SubController");
 
 configDotenv();
 connectDb();
@@ -25,7 +23,7 @@ app.get("/SignUp",(req,res)=>{
 app.get("/LogIn",(req,res)=>{
     res.json({"message":"HELO"});
 });
-
+app.post("/letter", Subscriber);
 
 app.post("/SignUp", SignUp);
 
