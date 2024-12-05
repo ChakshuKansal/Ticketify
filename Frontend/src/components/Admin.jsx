@@ -1,6 +1,7 @@
 import React from 'react';
 import Footer from './Footer';
 import Navbar from './Navbar';
+import Schemes from './Schemes';
 
 const Admin = () => {
   const sections = [
@@ -135,40 +136,33 @@ const Admin = () => {
             <div className="mb-4">
               <strong className="text-lg text-gray-800 font-serif">{section.title}</strong>
             </div>
-            {section.cta && (
-              <a
-                href={section.cta.href}
-                className="inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
-                rel={section.cta.rel}
-              >
-                {section.cta.text}
-              </a>
-            )}
           </div>
         ))}
       </div>
     </div>
+    <Schemes/>
     <div className="py-12 bg-gray-100">
-      <h2 className="text-5xl font-bold text-center mb-6">Our Clients</h2>
-      <div className="max-w-5xl mx-auto text-center">
-        <p className="text-gray-600 mb-8 text-lg">
-          Trusted by India's top event organisers and artist communities
-        </p>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-6">
-          {clients.map((client, index) => (
-            <div key={index} className="flex items-center justify-center">
-              <img
-                src={client.imgSrc}
-                alt={client.alt}
-                id={client.id}
-                height={client.height}
-                className="object-contain"
-              />
-            </div>
-          ))}
+        <h2 className="text-5xl font-bold text-center mb-6">Our Clients</h2>
+        <div className="max-w-5xl mx-auto text-center">
+          <p className="text-gray-600 mb-8 text-lg">
+            Trusted by India's top event organisers and artist communities
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-6">
+            {clients.map((client, index) => (
+              <div key={index} className="flex items-center justify-center">
+                <img
+                  src={client.imgSrc}
+                  alt={client.alt}
+                  id={client.id}
+                  height={client.height}
+                  className="object-contain"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    
     <Footer/>
         </>
   );
