@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom'
 import LogIn from './components/LogIn'
 import Home from './components/Home'
 import Admin from './components/Admin'
+import AddEvent from './components/AddEvent'
 
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
         <Route path='/SignUp' element={<SignUp/>}></Route>
         <Route path='/LogIn' element={<LogIn/>}></Route>
         <Route path='/Admin' element={<Admin/>}></Route>
+        <Route path='/Addevent' element={<AddEvent/>}></Route>
       </Routes>
       
     </div>

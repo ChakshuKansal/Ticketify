@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Footer from './Footer';
 import Navbar from './Navbar';
 import Schemes from './Schemes';
 
 const Admin = () => {
+  const [LoggedIn,setLog]=useState(true);
   const sections = [
     {
       imgSrc: "https://insider.in/list-your-events/images/lyoe_venue.png",
@@ -41,8 +42,7 @@ const Admin = () => {
       alt: "Corporates",
       title: "Corporates",
     },
-  ];
-
+  ]
   const clients = [
     {
       imgSrc: "https://insider.in/list-your-events/images/OML_Logo_2016_mini.jpg",
@@ -82,9 +82,7 @@ const Admin = () => {
       height: 100,
     },
   ];
-
   return (
-
     <>
     <Navbar/>
     <div className="h-[90vh] flex flex-col items-center justify-center bg-[url('https://4kwallpapers.com/images/walls/thumbs_2t/17018.jpg')] bg-center bg-cover">
@@ -140,7 +138,7 @@ const Admin = () => {
         ))}
       </div>
     </div>
-    <Schemes/>
+    <Schemes LoggedIn={LoggedIn}/>
     <div className="py-12 bg-gray-100">
         <h2 className="text-5xl font-bold text-center mb-6">Our Clients</h2>
         <div className="max-w-5xl mx-auto text-center">
@@ -155,7 +153,6 @@ const Admin = () => {
                   alt={client.alt}
                   id={client.id}
                   height={client.height}
-                  className="object-contain"
                 />
               </div>
             ))}

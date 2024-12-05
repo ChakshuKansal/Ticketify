@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Caraousel from "./Caraousel";
 import Footer from "./Footer";
@@ -31,6 +31,24 @@ const Home = () => {
         "https://res.cloudinary.com/dwzmsvp7f/image/upload/f_auto,w_320/c_crop%2Cg_custom%2Fv1671187953%2Fputphvcf3eqajqcrchn8.png",
     },
   ];
+
+  const [events,setevents]=useState([]);
+
+  // useEffect(()=>{
+  //   fetchevents();
+  // },[]);
+
+  // const fetchevents=async()=>{
+  //   try {
+  //     const resp=await fetch("",{
+  //       "method":
+  //     })
+      
+  //   } catch (error) {
+      
+  //   }
+  // }
+
 
   return (
     <>
@@ -326,6 +344,9 @@ const Home = () => {
                 </li>
               </li>
             </ul>
+            <div>
+
+            </div>
           </section>
         </div>
         <Footer />
