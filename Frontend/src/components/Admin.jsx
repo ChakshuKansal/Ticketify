@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
 import Footer from './Footer';
 import Navbar from './Navbar';
 import Schemes from './Schemes';
@@ -82,6 +82,12 @@ const Admin = () => {
       height: 100,
     },
   ];
+  const targetRef = useRef(null);
+  const handleScroll = () => {
+    if (targetRef.current) {
+      targetRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
   return (
     <>
     <Navbar/>
@@ -95,7 +101,7 @@ const Admin = () => {
         Craft unique experiences using our simple and powerful event platform. Create, ticket, and host both on-ground
         and digital events on a platform used by millions of live event-loving fans.
         <a
-          href="https://insider.in/list-your-online-events/#Pricing"
+          onClick={handleScroll}
           className="font-bold text-blue-600 underline"
           target="_blank"
           rel="noopener noreferrer"
@@ -105,7 +111,7 @@ const Admin = () => {
       </p>
 
       <a
-        href="#Pricing"
+        onClick={handleScroll}
         className="bg-blue-500 text-white py-2 px-6 rounded-md text-lg hover:bg-blue-700 transition"
         >
         LIST YOUR EVENT
@@ -138,7 +144,9 @@ const Admin = () => {
         ))}
       </div>
     </div>
+    <div ref={targetRef}>
     <Schemes LoggedIn={LoggedIn}/>
+    </div>
     <div className="py-12 bg-gray-100">
         <h2 className="text-5xl font-bold text-center mb-6">Our Clients</h2>
         <div className="max-w-5xl mx-auto text-center">
