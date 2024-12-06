@@ -49,7 +49,7 @@ const Schemes = ({LoggedIn}) => {
         </div>
       </div>
       <div>
-        <div className="text-center font-semibold flex flex-col justify-between gap-10 items-center mt-10">
+        <div className="text-center font-semibold flex flex-col justify-between gap-20 items-center mt-10">
           <h1 className="text-3xl font-bold">Digital Events</h1>
           <div className="grid lg:grid-cols-3 md:grid-cols-1 gap-10 px-16">
             <div className="h-[540px] w-[400px] rounded-xl overflow-hidden shadow-md">

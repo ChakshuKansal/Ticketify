@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Navbar from "./Navbar";
 import Caraousel from "./Caraousel";
 import Footer from "./Footer";
+import Workshop from "./Workshop";
 
 const Home = () => {
   const Genres = [
@@ -32,7 +33,7 @@ const Home = () => {
     },
   ];
 
-  const [events,setevents]=useState([]);
+  // const [events,setevents]=useState([]);
 
   // useEffect(()=>{
   //   fetchevents();
@@ -57,7 +58,7 @@ const Home = () => {
         <Caraousel />
         <div className="">
           <div className="mx-16">
-            <div className="flex h-36 p-4 lg:text-2xl justify-between max-w-[390px] flex-wrap sm:text-xl">
+            <div className="flex h-36 p-4 justify-between w-[390px] text-xl">
               <div className="flex justify-center items-center h-full">
                 <svg
                   width="52"
@@ -138,7 +139,7 @@ const Home = () => {
               </div>
               <div className="flex flex-col font-semibold justify-center">
                 <h1 className="font-bold text-left tracking-tighter ">
-                  FIND NEW EXPERIENCE
+                 NEW EXPERIENCE
                 </h1>
                 <h2>Explore, Discover, Make a Plan</h2>
               </div>
@@ -153,7 +154,7 @@ const Home = () => {
           </div>
 
           <section className="mx-16">
-            <div className="flex h-36 p-4 lg:text-2xl justify-between max-w-[310px] flex-wrap sm:text-xl ">
+            <div className="flex h-36 p-4 lg:text-2xl justify-between max-w-[340px] flex-wrap sm:text-xl ">
               <div className="flex items-center justify-center">
                 <svg
                   width="64"
@@ -348,6 +349,10 @@ const Home = () => {
 
             </div>
           </section>
+
+          <div className="mx-16">
+            {<Workshop/>}
+          </div>
         </div>
         <Footer />
       </div>
