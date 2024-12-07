@@ -47,13 +47,15 @@ const Schemes = ({ LoggedIn }) => {
           </div>
           <div>
             {LoggedIn ? (
-              <button onClick={handleAddEvent} className="bg-[#31C0F0] p-4 rounded-md text-zinc-50 text-lg w-full">
+              <button onClick={handleAddEvent} className="bg-[#31C0F0] p-4 rounded-md text-zinc-50 text-lg w-full flex justify-center items-center">
                 ADD EVENT
               </button>
             ) : (
               <Link to="/SignUp">
-                <button className="bg-[#31C0F0] p-4 rounded-md text-zinc-50 text-lg w-full">
-                  SIGN UP
+                <button className="bg-[#31C0F0] p-4 h-[50px] rounded-md text-zinc-50 text-lg w-full">
+                  <div >
+                    SIGN UP
+                  </div>
                 </button>
               </Link>
             )}
@@ -81,12 +83,14 @@ const Schemes = ({ LoggedIn }) => {
               </div>
               <div>
                 {LoggedIn ? (
-                  <button onClick={() => {Showevent(true);handlescroll()}} className="bg-[#EC1066] p-4 rounded-md text-zinc-50 text-lg w-full">
-                    ADD EVENT
+                  <button onClick={() => {Showevent(true);handlescroll()}} className="bg-[#EC1066] p-4 h-[50px] rounded-md text-zinc-50 text-lg w-full flex text-center items-center justify-center">
+                    <div>
+                      ADD EVENT
+                    </div>
                   </button>
                 ) : (
                   <Link to="/SignUp">
-                    <button className="bg-[#EC1066] p-4 rounded-md text-zinc-50 text-lg w-full">
+                    <button className="bg-[#EC1066] p-4 rounded-md text-zinc-50 text-lg w-full text-center">
                       SIGN UP
                     </button>
                   </Link>

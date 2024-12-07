@@ -4,7 +4,9 @@ import Navbar from './Navbar';
 import Schemes from './Schemes';
 
 const Admin = () => {
-  const [LoggedIn,setLog]=useState(true);
+  const token = localStorage.getItem('token');
+  const isLoggedIn = !!token;
+  const [LoggedIn,setLog]=useState(isLoggedIn);
   const sections = [
     {
       imgSrc: "https://insider.in/list-your-events/images/lyoe_venue.png",
