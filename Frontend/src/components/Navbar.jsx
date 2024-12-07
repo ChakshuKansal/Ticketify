@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
     const token = localStorage.getItem("token");
@@ -7,10 +7,12 @@ const Navbar = () => {
     const [LoggedIn, setLog] = useState(isLoggedIn);
     const [showNavbar, setShowNavbar] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
+    const navigate = useNavigate();
 
     const handleSignOut = () => {
         localStorage.removeItem("token");
         setLog(false);
+        navigate('/');
     };
 
     useEffect(() => {
@@ -34,11 +36,7 @@ const Navbar = () => {
     }, [lastScrollY]);
 
     return (
-        <div
-            className={`bg-[#0C172F] h-16 px-5 text-zinc-200 text-lg flex items-center justify-between w-full font-sans fixed top-0 left-0 z-50 transition-transform duration-300 ${
-                showNavbar ? "translate-y-0" : "-translate-y-full"
-            }`}
-        >
+        <div className={`bg-[#0C172F] h-16 px-5 text-zinc-200 text-lg flex items-center justify-between w-full font-sans fixed top-0 left-0 z-50 transition-transform duration-300 ${showNavbar ? "translate-y-0" : "-translate-y-full"}`}>
             <div className="flex items-center gap-6">
                 <div className="h-12">
                     <img
@@ -59,27 +57,52 @@ const Navbar = () => {
 
             <div className="flex items-center gap-4">
                 <Link
-                    to={"/Admin"}
-                    className="border-2 border-white rounded-full px-3 py-1 text-base hover:bg-blue-800 transition duration-300"
+                    to="/Admin"
+                    className="border-2 border-white rounded-full px-3 py-1 text-base hover:bg-blue-800 transition duration-300 flex items-center"
                 >
                     List Your Event
                 </Link>
                 {LoggedIn ? (
                     <button
+                        type="submit"
+                        className="flex items-center gap-2 flat inverted margin-bottom-0 primary px-3 py-1 text-base"
+                        style={{
+                            "--button-color": "var(--fa-lt-gravy)",
+                            "--button-background": "var(--fa-dk-gravy)",
+                            "--button-box-shadow-width": "0",
+                            "--button-margin-bottom": "0",
+                        }}
                         onClick={handleSignOut}
-                        className="text-base hover:text-white transition duration-300"
                     >
                         Sign Out
+                        <span class="margin-left-2xs">
+                        <svg
+        aria-hidden="true"
+        focusable="false"
+        data-prefix="fas"
+        data-icon="arrow-right-from-bracket"
+        role="img"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 512 512"
+        className="w-5 h-5 text-white"
+      >
+        <path
+          fill="currentColor"
+          d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z"
+        ></path>
+      </svg>
+                            </span>
                     </button>
                 ) : (
                     <Link
-                        to={"/SignUp"}
+                        to="/SignUp"
                         className="text-base hover:text-white transition duration-300"
                     >
                         Register
                     </Link>
                 )}
             </div>
+
         </div>
     );
 };
