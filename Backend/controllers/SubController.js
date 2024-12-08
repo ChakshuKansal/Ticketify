@@ -6,20 +6,20 @@ const SUB=async (req,res)=>{
     try {
         const {letter}=req.body;
         if(!letter){
-            return res.status(400).json({"message":"Email Not Found"});
+            return res.status(400).json({ "message": "Email Not Found" });
         }
-        const resp= await Subs.findOne({letter});
+        const resp = await Subs.findOne({ email: letter });
         if(resp){
-            return res.status(400).json({"message":"Email Already In Use!"});
+            return res.status(400).json({ "message": "Email Already In Use!" });
         }
         const newletter=new Subs({
             email:letter
         });
-        newletter.save();
-        return res.status(200).json({"message":"Email Registered Success!"});
+        await newletter.save();
+        return res.status(200).json({ "message": "Email Registered Successfully!" });
     } catch (error) {
-        console.log("ERROR: ",message);
+        console.error("ERROR:", error.message);
+        return res.status(500).json({ message: "Internal Server Error. Please try again later." });
     }
-    return res.status(200).json({"message":"HEllo"});
 }
 module.exports=SUB;

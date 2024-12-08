@@ -44,9 +44,9 @@ const Home = () => {
   //     const resp=await fetch("",{
   //       "method":
   //     })
-      
+
   //   } catch (error) {
-      
+
   //   }
   // }
 
@@ -57,8 +57,8 @@ const Home = () => {
         <Navbar />
         <Caraousel />
         <div className="">
-          <div className="mx-16">
-            <div className="flex h-36 p-4 justify-between w-[390px] text-xl">
+          <div className="mx-5 flex justify-center items-center sm:justify-start sm:items-start flex-col">
+            <div className="flex flex-col w-[210px] mb-10 text-center h-36 justify-between sm:w-[320px] sm:mb-2 sm:text-left sm:flex-row">
               <div className="flex justify-center items-center h-full">
                 <svg
                   width="52"
@@ -138,13 +138,13 @@ const Home = () => {
                 </svg>
               </div>
               <div className="flex flex-col font-semibold justify-center">
-                <h1 className="font-bold text-left tracking-tighter ">
-                 NEW EXPERIENCE
+                <h1 className="font-bold tracking-tighter ">
+                  NEW EXPERIENCE
                 </h1>
                 <h2>Explore, Discover, Make a Plan</h2>
               </div>
             </div>
-            <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:gap-1 mx-2">
+            <div className="grid gap-5 lg:grid-cols-5 md:grid-cols-3 sm:gap-6 mx-2">
               {Genres.map((genre, index) => (
                 <div key={index} id={genre.id} className="w-full h-[200px] flex justify-center items-center">
                   <img src={genre.imageurl} alt={`${genre.name} image`} />
@@ -153,8 +153,8 @@ const Home = () => {
             </div>
           </div>
 
-          <section className="mx-16">
-            <div className="flex h-36 p-4 lg:text-2xl justify-between max-w-[340px] flex-wrap sm:text-xl ">
+          <section className="mx-5 flex justify-center items-center sm:justify-start sm:items-start flex-col">
+            <div className="flex flex-col sm:flex-row h-36 p-4 lg:text-2xl justify-between max-w-[340px] flex-wrap sm:text-xl ">
               <div className="flex items-center justify-center">
                 <svg
                   width="64"
@@ -192,7 +192,7 @@ const Home = () => {
               </div>
             </div>
 
-            <ul className="grid lg:grid-cols-5 sm:grid-cols-3 mx-16">
+            <ul className="grid grid-cols-1 md:grid-cols-5 sm:grid-cols-3 mx-16 gap-10">
               <li className="flex flex-col items-center space-y-2">
                 <li className="flex flex-col items-center p-4 rounded-lg shadow hover:shadow-lg transition-all">
                   <div className="w-16 h-16 flex items-center justify-center">
@@ -351,7 +351,7 @@ const Home = () => {
           </section>
 
           <div className="mx-16">
-            {<Workshop/>}
+            {<Workshop />}
           </div>
         </div>
         <Footer />
