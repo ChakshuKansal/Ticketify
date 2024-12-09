@@ -4,7 +4,7 @@ configDotenv();
 
 const Eventadder= async (req, res) => {
     try {
-        const { eventName, date, time, duration, eventType, eventCat } = req.body;
+        const { eventName, date, time,location,imageURL,price,duration,description, eventType, eventCat } = req.body;
         const NewEvent = new EventSchema({
             eventName: eventName,
             date: date,
@@ -12,6 +12,10 @@ const Eventadder= async (req, res) => {
             duration: duration,
             eventType: eventType,
             eventCat: eventCat,
+            location:location,
+            imageURL:imageURL,
+            description:description,
+            price:price,
         });
         await NewEvent.save();
         res.status(201).json({ message: "Event Created Successfully" });

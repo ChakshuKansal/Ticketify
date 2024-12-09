@@ -5,6 +5,24 @@ const EventSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    description: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    imageURL: {
+      type: String,
+      required: true,
+    },
+    location: {
+      type: String,
+      default:"Online",
+      trim: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
     date: {
       type: String,
       required: true,

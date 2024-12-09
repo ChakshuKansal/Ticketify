@@ -6,6 +6,8 @@ const { configDotenv } = require("dotenv");
 const { SignUp, Login } = require("./controllers/AuthController");
 const Subscriber = require("./controllers/SubController");
 const Eventadder = require("./controllers/EventController");
+const Events = require("./models/Events");
+
 
 configDotenv();
 connectDb();
@@ -31,6 +33,24 @@ app.post("/SignUp", SignUp);
 app.post("/LogIn",Login);
 
 app.post("/Event",Eventadder);
+
+app.get("/Events",async (req,res)=>{
+
+    try {
+        const events=await Events.find();
+        if(events.length==0){
+           return res.status(404).json({"message":"No Events Till Now"});
+        }
+        console.log(events);
+        res.status(200).json(events);
+        return;
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({"message":"Internal Server Error!"});
+    }
+    
+});
 
 app.listen(process.env.PORT,()=>{
     console.log("running on http://localhost:5000");

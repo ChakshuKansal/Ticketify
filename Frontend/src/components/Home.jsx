@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Caraousel from "./Caraousel";
 import Footer from "./Footer";
@@ -33,22 +33,33 @@ const Home = () => {
     },
   ];
 
-  // const [events,setevents]=useState([]);
+  const [events, setEvents] = useState([]);
 
-  // useEffect(()=>{
-  //   fetchevents();
-  // },[]);
+  useEffect(() => {
+    fetchEvents();
+  }, []);
 
-  // const fetchevents=async()=>{
-  //   try {
-  //     const resp=await fetch("",{
-  //       "method":
-  //     })
+  const fetchEvents = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/Events", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-  //   } catch (error) {
+      console.log(response);
 
-  //   }
-  // }
+      if (!response.ok) {
+        throw new Error("Failed to fetch events");
+      }
+
+      const data = await response.json();
+      setEvents(data); 
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
+  };
 
 
   return (

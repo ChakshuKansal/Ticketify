@@ -9,7 +9,13 @@ const CreateEvent = ({ showevent, eventType }) => {
     duration: '',
     eventType: eventType,
     eventCat: 'Comedy',
+    location: '',
+    imageURL: '',
+    price: '', 
+    description: '',
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,9 +24,9 @@ const CreateEvent = ({ showevent, eventType }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { eventName, date, time, duration, eventType, eventCat } = formData;
+    const { eventName, date, time, duration, eventType, eventCat, location, imageURL, price, description } = formData;
 
-    if (eventName && date && time && duration && eventCat) {
+    if (eventName && date && time && duration && eventCat && (eventType === "Digital Event" || location) && imageURL && price) {
       const today = new Date();
       const maxDate = new Date();
       maxDate.setFullYear(today.getFullYear() + 1);
@@ -29,10 +35,12 @@ const CreateEvent = ({ showevent, eventType }) => {
         alert('The selected booking date exceeds one year from today.\n Please choose a valid date within the next year.');
         return;
       }
-      if (selectedDate <today ) {
+      if (selectedDate < today) {
         alert('The selected date is in the past. Please choose a valid future date.');
         return;
       }
+
+      setIsSubmitting(true);
 
       try {
         const res = await fetch('http://localhost:5000/Event', {
@@ -45,7 +53,6 @@ const CreateEvent = ({ showevent, eventType }) => {
           const result = await res.json();
           console.log('Server Response:', result);
           alert('Event created successfully!');
-          // Reset the form data after successful submission
           setFormData({
             eventName: '',
             date: '',
@@ -53,7 +60,11 @@ const CreateEvent = ({ showevent, eventType }) => {
             duration: '',
             eventType: eventType,
             eventCat: 'Comedy',
-          })
+            location: '',
+            imageURL: '', 
+            price: '',
+            description: '',
+          });
         } else {
           const error = await res.json();
           console.error('Server Error:', error);
@@ -62,6 +73,8 @@ const CreateEvent = ({ showevent, eventType }) => {
       } catch (err) {
         console.error('Network Error:', err);
         alert('Failed to create the event. Please try again later.');
+      } finally {
+        setIsSubmitting(false);
       }
     } else {
       alert('Please fill in all fields.');
@@ -70,8 +83,8 @@ const CreateEvent = ({ showevent, eventType }) => {
 
   return (
     <div className="bg-gray-50 min-h-screen flex flex-col">
-      <div className="flex justify-center my-10 w-full px-4 sm:px-8 md:px-16">
-        <form onSubmit={handleSubmit} className="w-full max-w-5xl p-8 shadow-lg rounded-lg bg-white">
+      <div className="flex justify-center my-10 w-full px-3 sm:px-8 md:px-16">
+        <form onSubmit={handleSubmit} className="w-full max-w-5xl p-6 sm:p-8 shadow-lg rounded-lg bg-white">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-3xl font-semibold text-gray-800">Create Event</h2>
             <button
@@ -82,7 +95,6 @@ const CreateEvent = ({ showevent, eventType }) => {
             </button>
           </div>
 
-          {/* Event Name */}
           <div className="mb-6">
             <label className="block text-lg font-medium text-gray-700 mb-2">Event Name</label>
             <input
@@ -94,9 +106,19 @@ const CreateEvent = ({ showevent, eventType }) => {
               placeholder="Enter event name"
             />
           </div>
+          <div className="mb-6">
+            <label className="block text-lg font-medium text-gray-700 mb-2">Event Description</label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              className="border-2 border-gray-300 w-full p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter event description"
+              rows="4"
+            />
+          </div>
 
-          <div className="mb-6 flex space-x-4">
-            {/* Date */}
+          <div className="flex flex-col mb-6 sm:flex-row sm:space-x-4">
             <div className="flex-1">
               <label className="block text-lg font-medium text-gray-700 mb-2">Date</label>
               <input
@@ -107,9 +129,7 @@ const CreateEvent = ({ showevent, eventType }) => {
                 className="border-2 border-gray-300 w-full p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-
-            {/* Time */}
-            <div className="flex-1">
+            <div className="sm:flex-1">
               <label className="block text-lg font-medium text-gray-700 mb-2">Time</label>
               <input
                 type="time"
@@ -121,8 +141,7 @@ const CreateEvent = ({ showevent, eventType }) => {
             </div>
           </div>
 
-          <div className="mb-6 flex space-x-4">
-            {/* Duration */}
+          <div className="mb-6 flex flex-col sm:flex-row sm:space-x-4">
             <div className="flex-1">
               <label className="block text-lg font-medium text-gray-700 mb-2">Duration (in hours)</label>
               <input
@@ -136,7 +155,6 @@ const CreateEvent = ({ showevent, eventType }) => {
               />
             </div>
 
-            {/* Event Type */}
             <div className="flex-1">
               <label className="block text-lg font-medium text-gray-700 mb-2">Event Type</label>
               <select
@@ -151,7 +169,6 @@ const CreateEvent = ({ showevent, eventType }) => {
             </div>
           </div>
 
-          {/* Event Category */}
           <div className="mb-6">
             <label className="block text-lg font-medium text-gray-700 mb-2">Event Category</label>
             <select
@@ -170,12 +187,51 @@ const CreateEvent = ({ showevent, eventType }) => {
             </select>
           </div>
 
-          {/* Submit Button */}
+          {formData.eventType === "Ground Event" && (
+            <div className="mb-6">
+              <label className="block text-lg font-medium text-gray-700 mb-2">Location</label>
+              <input
+                type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+                className="border-2 border-gray-300 w-full p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter event location"
+              />
+            </div>
+          )}
+
+          <div className="mb-6">
+            <label className="block text-lg font-medium text-gray-700 mb-2">Event Image URL</label>
+            <input
+              type="url"
+              name="imageURL"
+              value={formData.imageURL}
+              onChange={handleChange}
+              className="border-2 border-gray-300 w-full p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter event image URL"
+            />
+          </div>
+
+          <div className="mb-6">
+            <label className="block text-lg font-medium text-gray-700 mb-2">Price (in INR)</label>
+            <input
+              type="number"
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
+              className="border-2 border-gray-300 w-full p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter event price"
+              min="0"
+              step="1"
+            />
+          </div>
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-3 text-lg rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            disabled={isSubmitting}
           >
-            Create Event
+            {isSubmitting ? 'Creating Event...' : 'Create Event'}
           </button>
         </form>
       </div>
