@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Caraousel from "./Caraousel";
 import Footer from "./Footer";
-import Workshop from "./Workshop";
+// import Workshop from "./Workshop";
 
 const Home = () => {
   const Genres = [
@@ -34,6 +34,7 @@ const Home = () => {
   ];
 
   const [events, setEvents] = useState([]);
+  const [genreCounts, setGenreCounts] = useState({});
 
   useEffect(() => {
     fetchEvents();
@@ -56,11 +57,30 @@ const Home = () => {
 
       const data = await response.json();
       setEvents(data);
+      calculateGenreCounts(data); // Calculate genre counts
     } catch (error) {
       console.error("Error fetching events:", error);
     }
   };
 
+  const calculateGenreCounts = (events) => {
+    const counts = events.reduce((acc, event) => {
+      const genre = event.eventCat;
+      acc[genre] = (acc[genre] || 0) + 1;
+      return acc;
+    }, {});
+    setGenreCounts(counts);
+  };
+
+  const categorizedEvents = events.reduce((acc, event) => {
+    const category = event.eventCat || 'Other';
+    console.log(category);
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(event);
+    return acc;
+  }, {});
 
   return (
     <>
@@ -246,7 +266,7 @@ const Home = () => {
                   </div>
                   <div className="flex flex-col text-center ">
                     <div className="text-sm font-medium">Workshops</div>
-                    <div className="text-xs text-gray-500">93 events</div>
+                    <div className="text-xs text-gray-500">{genreCounts["Workshops"] || 0} Events</div>
                   </div>
                 </li>
               </li>
@@ -270,7 +290,7 @@ const Home = () => {
                   </div>
                   <div className="flex flex-col text-center">
                     <span className="text-sm font-medium">Music</span>
-                    <span className="text-xs text-gray-500">70 events</span>
+                    <span className="text-xs text-gray-500">{genreCounts["Music"] || 0} Events</span>
                   </div>
                 </li>
               </li>
@@ -294,7 +314,7 @@ const Home = () => {
                   </div>
                   <div className="flex flex-col text-center">
                     <span className="text-sm font-medium">Courses</span>
-                    <span className="text-xs text-gray-500">70 events</span>
+                    <span className="text-xs text-gray-500">{genreCounts["Courses"] || 0} Events</span>
                   </div>
                 </li>
               </li>
@@ -323,7 +343,7 @@ const Home = () => {
                   </div>
                   <div className="flex flex-col text-center">
                     <span className="text-sm font-medium">Theatre</span>
-                    <span className="text-xs text-gray-500">70 events</span>
+                    <span className="text-xs text-gray-500">{genreCounts["Theatre"] || 0} Events</span>
                   </div>
                 </li>
               </li>
@@ -351,7 +371,7 @@ const Home = () => {
                   </div>
                   <div className="flex flex-col text-center">
                     <span className="text-sm font-medium">Health and Wellness</span>
-                    <span className="text-xs text-gray-500">70 events</span>
+                    <span className="text-xs text-gray-500">{genreCounts["Health"] || 0} Events</span>
                   </div>
                 </li>
               </li>
@@ -361,36 +381,43 @@ const Home = () => {
             </div>
           </section>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
-            {events.map((event) => (
-              <div
-                key={event._id}
-                className="w-full h-[390px] bg-white border border-gray-300 rounded-lg shadow-lg flex flex-col justify-between p-4 hover:shadow-xl transition-shadow"
-              >
-                <div>
-                  <img
-                    src={event.imageURL}
-                    alt={`${event.eventName} Image`}
-                    className="w-full h-64 object-cover rounded-md"
-                  />
-                  <div className="text-lg font-bold mt-2 truncate">{event.eventName}</div>
-                  <div className="text-sm text-gray-600 line-clamp-2">{event.description}</div>
-                </div>
-                <div className="flex justify-between">
-                  <div className="text-sm mt-2">
-                    <div>
-                      <span className="font-semibold">Location:</span> {event.location}
+          <div className="p-4">
+            {Object.entries(categorizedEvents).map(([category, categoryEvents]) => (
+              <div key={category} className="mb-8">
+                <h2 className="text-2xl font-bold mb-4">{category}</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {categoryEvents.map((event) => (
+                    <div
+                      key={event._id}
+                      className="w-full h-[390px] bg-white border border-gray-300 rounded-lg shadow-lg flex flex-col justify-between p-4 hover:shadow-xl transition-shadow"
+                    >
+                      <div>
+                        <img
+                          src={event.imageURL}
+                          alt={`${event.eventName} Image`}
+                          className="w-full h-64 object-cover rounded-md"
+                        />
+                        <div className="text-lg font-bold mt-2 truncate">{event.eventName}</div>
+                        <div className="text-sm text-gray-600 line-clamp-2">{event.description}</div>
+                      </div>
+                      <div className="flex justify-between">
+                        <div className="text-sm mt-2">
+                          <div>
+                            <span className="font-semibold">Location:</span> {event.location}
+                          </div>
+                          <div>
+                            <span className="font-semibold">Date:</span> {new Date(event.date).toLocaleDateString()}
+                          </div>
+                          <div>
+                            <span className="font-semibold">Time:</span> {event.time}
+                          </div>
+                        </div>
+                        <div className="font-bold text-green-600 text-center mt-2">
+                          ₹{event.price}
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <span className="font-semibold">Date:</span> {new Date(event.date).toLocaleDateString()}
-                    </div>
-                    <div>
-                      <span className="font-semibold">Time:</span> {event.time}
-                    </div>
-                  </div>
-                  <div className="font-bold text-green-600 text-center mt-2">
-                    ₹{event.price}
-                  </div>
+                  ))}
                 </div>
               </div>
             ))}
