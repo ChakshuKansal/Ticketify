@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Footer from './Footer';
 
 const CreateEvent = ({ showevent, eventType }) => {
@@ -16,6 +17,7 @@ const CreateEvent = ({ showevent, eventType }) => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,6 +43,7 @@ const CreateEvent = ({ showevent, eventType }) => {
       }
 
       setIsSubmitting(true);
+      
 
       try {
         const res = await fetch('http://localhost:5000/Event', {
@@ -65,6 +68,7 @@ const CreateEvent = ({ showevent, eventType }) => {
             price: '',
             description: '',
           });
+          navigate('/');
         } else {
           const error = await res.json();
           console.error('Server Error:', error);
@@ -179,11 +183,10 @@ const CreateEvent = ({ showevent, eventType }) => {
             >
               <option value="Comedy">Comedy</option>
               <option value="Theatre">Theatre</option>
-              <option value="Dance">Dance</option>
               <option value="Music">Music</option>
-              <option value="Story">Storytelling</option>
-              <option value="Course">Course</option>
-              <option value="Workshop">Workshop</option>
+              <option value="Courses">Course</option>
+              <option value="Workshops">Workshop</option>
+              <option value="Health and Wellness">Health And Wellness</option>
             </select>
           </div>
 

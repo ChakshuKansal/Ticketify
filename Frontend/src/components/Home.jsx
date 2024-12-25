@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Caraousel from "./Caraousel";
 import Footer from "./Footer";
-// import Workshop from "./Workshop";
 
 const Home = () => {
   const Genres = [
@@ -35,6 +34,7 @@ const Home = () => {
 
   const [events, setEvents] = useState([]);
   const [genreCounts, setGenreCounts] = useState({});
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     fetchEvents();
@@ -57,7 +57,7 @@ const Home = () => {
 
       const data = await response.json();
       setEvents(data);
-      calculateGenreCounts(data); // Calculate genre counts
+      calculateGenreCounts(data);
     } catch (error) {
       console.error("Error fetching events:", error);
     }
@@ -74,13 +74,38 @@ const Home = () => {
 
   const categorizedEvents = events.reduce((acc, event) => {
     const category = event.eventCat || 'Other';
-    console.log(category);
     if (!acc[category]) {
       acc[category] = [];
     }
     acc[category].push(event);
     return acc;
   }, {});
+
+  const handleBookTicket = async (eventId) => {
+    try {
+      console.log(eventId)
+      const res = await fetch('http://localhost:5000/book-ticket', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ eventId: eventId }),
+      });
+  
+      if (res.ok) {
+        const result = await res.json();
+        alert('Ticket booked successfully!');
+      } else {
+        const error = await res.json();
+        alert(error.message || 'Failed to book the ticket. Please try again.');
+      }
+    } catch (err) {
+      console.error('Error booking ticket:', err);
+      alert('An error occurred. Please try again later.');
+    }
+  };
+  
 
   return (
     <>
@@ -225,7 +250,12 @@ const Home = () => {
 
             <ul className="grid grid-cols-1 md:grid-cols-5 sm:grid-cols-3 mx-16 gap-10">
               <li className="flex flex-col items-center space-y-2">
-                <li className="flex flex-col items-center p-4 rounded-lg shadow hover:shadow-lg transition-all">
+                <li className="flex flex-col items-center p-4 rounded-lg shadow hover:shadow-lg transition-all" onClick={() => {
+                  const section = document.getElementById("category-Workshop");
+                  if (section) {
+                    section.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}>
                   <div className="w-16 h-16 flex items-center justify-center">
                     <svg
                       width="64"
@@ -266,12 +296,17 @@ const Home = () => {
                   </div>
                   <div className="flex flex-col text-center ">
                     <div className="text-sm font-medium">Workshops</div>
-                    <div className="text-xs text-gray-500">{genreCounts["Workshops"] || 0} Events</div>
+                    <div className="text-xs text-gray-500">{genreCounts["Workshop"] || 0} Events</div>
                   </div>
                 </li>
               </li>
               <li className="flex flex-col items-center space-y-2">
-                <li className="flex flex-col items-center p-4 rounded-lg shadow hover:shadow-lg transition-all">
+                <li className="flex flex-col items-center p-4 rounded-lg shadow hover:shadow-lg transition-all" onClick={() => {
+                  const section = document.getElementById("category-Music");
+                  if (section) {
+                    section.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}>
                   <div className="w-16 h-16 flex items-center justify-center">
                     <svg
                       width="64"
@@ -295,7 +330,12 @@ const Home = () => {
                 </li>
               </li>
               <li className="flex flex-col items-center space-y-2">
-                <li className="flex flex-col items-center p-4 rounded-lg shadow hover:shadow-lg transition-all">
+                <li className="flex flex-col items-center p-4 rounded-lg shadow hover:shadow-lg transition-all" onClick={() => {
+                  const section = document.getElementById("category-Courses");
+                  if (section) {
+                    section.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}>
                   <div className="icon-wrapper w-16 h-16 flex items-center justify-center">
                     <svg
                       width="64"
@@ -320,7 +360,12 @@ const Home = () => {
               </li>
 
               <li className="flex flex-col items-center space-y-2">
-                <li className="flex flex-col items-center p-4 rounded-lg shadow hover:shadow-lg transition-all">
+                <li className="flex flex-col items-center p-4 rounded-lg shadow hover:shadow-lg transition-all" onClick={() => {
+                  const section = document.getElementById("category-Theatre");
+                  if (section) {
+                    section.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}>
                   <div className="icon-wrapper w-16 h-16 flex items-center justify-center">
                     <svg
                       width="64"
@@ -348,7 +393,12 @@ const Home = () => {
                 </li>
               </li>
               <li className="flex flex-col items-center space-y-2">
-                <li className="flex flex-col items-center p-4 rounded-lg shadow hover:shadow-lg transition-all">
+                <li className="flex flex-col items-center p-4 rounded-lg shadow hover:shadow-lg transition-all" onClick={() => {
+                  const section = document.getElementById("category-Health and Wellness");
+                  if (section) {
+                    section.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}>
                   <div className="icon-wrapper w-16 h-16 flex items-center justify-center">
                     <svg
                       width="64"
@@ -371,7 +421,7 @@ const Home = () => {
                   </div>
                   <div className="flex flex-col text-center">
                     <span className="text-sm font-medium">Health and Wellness</span>
-                    <span className="text-xs text-gray-500">{genreCounts["Health"] || 0} Events</span>
+                    <span className="text-xs text-gray-500">{genreCounts["Health and Wellness"] || 0} Events</span>
                   </div>
                 </li>
               </li>
@@ -383,13 +433,13 @@ const Home = () => {
 
           <div className="p-4">
             {Object.entries(categorizedEvents).map(([category, categoryEvents]) => (
-              <div key={category} className="mb-8">
+              <div key={category} id={`category-${category}`} className="mb-8">
                 <h2 className="text-2xl font-bold mb-4">{category}</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {categoryEvents.map((event) => (
                     <div
                       key={event._id}
-                      className="w-full h-[390px] bg-white border border-gray-300 rounded-lg shadow-lg flex flex-col justify-between p-4 hover:shadow-xl transition-shadow"
+                      className="w-full h-[430px] bg-white border border-gray-300 rounded-lg shadow-lg flex flex-col justify-between p-4 hover:shadow-xl transition-shadow"
                     >
                       <div>
                         <img
@@ -400,8 +450,8 @@ const Home = () => {
                         <div className="text-lg font-bold mt-2 truncate">{event.eventName}</div>
                         <div className="text-sm text-gray-600 line-clamp-2">{event.description}</div>
                       </div>
-                      <div className="flex justify-between">
-                        <div className="text-sm mt-2">
+                      <div className="flex justify-between items-center mt-2">
+                        <div className="text-sm">
                           <div>
                             <span className="font-semibold">Location:</span> {event.location}
                           </div>
@@ -412,20 +462,22 @@ const Home = () => {
                             <span className="font-semibold">Time:</span> {event.time}
                           </div>
                         </div>
-                        <div className="font-bold text-green-600 text-center mt-2">
+                        <div className="font-bold text-green-600 text-center">
                           ₹{event.price}
                         </div>
                       </div>
+                      <button
+                        onClick={() => handleBookTicket(event._id)}
+                        className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition-all mt-4"
+                      >
+                        Book Ticket
+                      </button>
                     </div>
                   ))}
                 </div>
               </div>
             ))}
           </div>
-
-
-
-
 
         </div>
         <Footer />
