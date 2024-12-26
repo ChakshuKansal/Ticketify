@@ -1,87 +1,118 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
+    const [name, setname] = useState("");
+    const [email, setemail] = useState("");
+    const [pass, setpass] = useState("");
 
-    const[name,setname]=useState("");
-    const[email,setemail]=useState("");
-    const[pass,setpass]=useState("");
-
-    const [data,setdata]=useState({
-        fullname:"",
-        email:"",
-        password:"",    
+    const [data, setdata] = useState({
+        fullname: "",
+        email: "",
+        password: "",    
     });
 
-    useEffect(()=>{
+    const navigate = useNavigate();
+
+    useEffect(() => {
         updatedata();
-    },[name,email,pass,]);
+    }, [name, email, pass]);
 
-    const updatedata=async ()=>{
-        await setdata({...data,"email":email,"fullname":name,"password":pass});
-    }
+    const updatedata = async () => {
+        await setdata({ ...data, "email": email, "fullname": name, "password": pass });
+    };
 
-    const handleChange=(e)=>{
-        console.log(e.target.value);
-        console.log(e.target.name);
-        if(e.target.name==='fullname'){
+    const handleChange = (e) => {
+        if (e.target.name === 'fullname') {
             setname(e.target.value);
-            console.log(name);
-            setdata({...data,"fullname":name});
-        }
-        else if(e.target.name==='email'){
+            setdata({ ...data, "fullname": e.target.value });
+        } else if (e.target.name === 'email') {
             setemail(e.target.value);
-            setdata({...data,"email":email});
-        }
-        else{
+            setdata({ ...data, "email": e.target.value });
+        } else {
             setpass(e.target.value);
-            setdata({...data,"password":pass});
+            setdata({ ...data, "password": e.target.value });
         }
+    };
 
-        console.log(data);
-    }
-    const addtodb=async (e)=>{
+    const addtodb = async (e) => {
         e.preventDefault();
         updatedata();
         try {
-            const res=await fetch("http://localhost:5000/SignUp",{
+            const res = await fetch("http://localhost:5000/SignUp", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
-            })
-            if(!res.ok){
-                return console.log("something Is wrong");
+            });
+            if (!res.ok) {
+                console.log("Something is wrong");
+                return;
             }
-            return console.log("User Registered");
+            console.log("User Registered");
+            navigate("/LogIn");
         } catch (error) {
-            console.log(error)||"Something Went Wrong";
-            return;
+            console.log(error || "Something Went Wrong");
         }
-    }
+    };
 
-  return (
-    <>
-    <div className='relative mx-40 my-20 h-[48vh] '>
-        <div className='absolute top-[50%] left-[50%] w-[700px] h-full -translate-x-[50%] -translate-y-[50%] text-center'>
-            <div className='text-4xl'>Create Account</div>
-            <br>
-            </br>
-            <div className='w-full h-full'>
-                <form className='justify-between h-full flex flex-col items-center'>
-                    <div className='w-[700px] border-b-2 border-r-2 border-black rounded-r-lg overflow-hidden focus-within:border-r-8'><input type='text' name='fullname' className='px-6 py-4  focus:outline-none  w-full text-xl' placeholder='Full Name' onChange={handleChange}></input></div>
-                    <div className='w-[700px] border-b-2 border-r-2 border-black rounded-r-lg overflow-hidden focus-within:border-r-8'><input type='email' name='email' className='px-6 py-4 focus:outline-none w-full text-xl' placeholder='Email' onChange={handleChange}></input></div>
-                    <div className='w-[700px] border-b-2 border-r-2 border-black rounded-r-lg overflow-hidden focus-within:border-r-8'><input type='password' name='password' className='px-6 py-4 focus:outline-none w-full text-xl ' placeholder='Password' onChange={handleChange}></input></div>
-                    <div className='w-[700px] border-black rounded-lg overflow-hidden' ><button type='submit' onClick={addtodb} className='bg-gray-800 text-zinc-100 px-6 py-4 focus:outline-none w-full text-xl font-extralight leading-10 '>Create Account</button></div>
-                </form>
-            </div>
-                <div className='flex justify-start mt-8 font-mono text-lg space-x-2'>
-                    <p className='font-serif'>Already have an account?</p>
-                    <Link to={'/LogIn'}>Log in</Link>
+    return (
+        <>
+            <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-400 to-teal-600">
+                <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+                    <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+                        Create an Account
+                    </h2>
+                    <form className="space-y-6">
+                        <div className="relative">
+                            <input
+                                type="text"
+                                name="fullname"
+                                placeholder="Full Name"
+                                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-400 focus:outline-none text-gray-700"
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="relative">
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Email"
+                                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-400 focus:outline-none text-gray-700"
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="relative">
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-teal-400 focus:outline-none text-gray-700"
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            onClick={addtodb}
+                            className="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 rounded-lg transition duration-300"
+                        >
+                            Create Account
+                        </button>
+                    </form>
+                    <div className="mt-6 text-center">
+                        <p className="text-gray-600">
+                            Already have an account?{" "}
+                            <Link
+                                to="/LogIn"
+                                className="text-teal-500 hover:underline"
+                            >
+                                Log In
+                            </Link>
+                        </p>
+                    </div>
                 </div>
-        </div>
-    </div>
-    </>
-  )
-}
+            </div>
+        </>
+    );
+};
 
-export default SignUp
+export default SignUp;

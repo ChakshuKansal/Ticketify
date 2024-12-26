@@ -1,6 +1,8 @@
 const { configDotenv } = require("dotenv");
 const bcrypt=require("bcrypt");
 const UserSchema = require("../models/Users");
+const Booking=require("../models/Booking")
+const User=require("../models/Users")
 const jwt=require("jsonwebtoken");
 configDotenv();
 
@@ -8,7 +10,6 @@ configDotenv();
 const SignUp=async(req,res)=>{
     try {
         const{email,password,fullname}=req.body;
-        console.log(req.body);
     if(!email || !password || !fullname){
         return res.status(403).json({"message":"All Fields Mandatory"});
     }
@@ -66,5 +67,18 @@ const authenticateToken = (req, res, next) => {
     }
 };
 
+const UserDetails=async (req, res) => {
+    try {
+      const user = await User.findById(req.user.user);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      const bookings = await Booking.find({ userId: req.user.user});
+      res.status(200).json({ user, bookings });
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  }
 
-module.exports={SignUp,Login,authenticateToken};
+module.exports={SignUp,Login,authenticateToken,UserDetails};

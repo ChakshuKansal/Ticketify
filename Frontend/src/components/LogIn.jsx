@@ -1,87 +1,105 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LogIn = () => {
+    const [email, setemail] = useState("");
+    const [pass, setpass] = useState("");
+    const [data, setdata] = useState({
+        email: "",
+        password: "",
+    });
 
-    const[email,setemail]=useState("");
-    const[pass,setpass]=useState("");
+    const navigate = useNavigate();
 
-    const [data,setdata]=useState({
-        email:"",
-        password:"",    
-    })
-
-    useEffect(()=>{
+    useEffect(() => {
         updatedata();
-    },[email,pass,]);
+    }, [email, pass]);
 
-    const updatedata=async ()=>{
-        await setdata({...data,"email":email,"password":pass});
-    }
+    const updatedata = async () => {
+        await setdata({ ...data, "email": email, "password": pass });
+    };
 
-    const handleChange=(e)=>{
-        console.log(e.target.value);
-        console.log(e.target.name);
-
-        if(e.target.name==='email'){
+    const handleChange = (e) => {
+        if (e.target.name === 'email') {
             setemail(e.target.value);
-            setdata({...data,"email":email});
-        }
-        else{
+            setdata({ ...data, "email": e.target.value });
+        } else {
             setpass(e.target.value);
-            setdata({...data,"password":pass});
+            setdata({ ...data, "password": e.target.value });
         }
+    };
 
-        console.log(data);
-    }
-    const addtodb=async (e)=>{
-        console.log("hello");
+    const addtodb = async (e) => {
         e.preventDefault();
         updatedata();
         try {
-            const res=await fetch("http://localhost:5000/LogIn",{
+            const res = await fetch("http://localhost:5000/LogIn", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
-            })
-            if(!res.ok){
-                return console.log("something Is wrong");
+            });
+            if (!res.ok) {
+                console.log("Something is wrong");
+                return;
             }
-            const responseData=await res.json();
-
-            
-                localStorage.setItem("token", responseData.token);
-                console.log("User logged in success!");
-
-            return;
+            const responseData = await res.json();
+            localStorage.setItem("token", responseData.token);
+            console.log("User logged in successfully!");
+            navigate("/");
         } catch (error) {
-            console.log(error)||"Something Went Wrong";
-            return;
+            console.log(error || "Something Went Wrong");
         }
-    }
+    };
 
-  return (
-    <>
-    <div className='relative mx-40 my-32 h-[38vh] '>
-        <div className='absolute top-[50%] left-[50%] w-[700px] h-full -translate-x-[50%] -translate-y-[50%] text-center'>
-            <div className='text-4xl'>Log in your Account</div>
-            <br>
-            </br>
-            <div className='w-full h-full'>
-                <form className='justify-between h-full flex flex-col items-center'>
-                    <div className='w-[700px] border-b-2 border-r-2 border-black rounded-r-lg overflow-hidden focus-within:border-r-8'><input type='email' name='email' className='px-6 py-4 focus:outline-none w-full text-xl' placeholder='Email' onChange={handleChange}></input></div>
-                    <div className='w-[700px] border-b-2 border-r-2 border-black rounded-r-lg overflow-hidden focus-within:border-r-8'><input type='password' name='password' className='px-6 py-4 focus:outline-none w-full text-xl ' placeholder='Password' onChange={handleChange}></input></div>
-                    <div className='w-[700px] border-black rounded-lg overflow-hidden' ><button type='submit' onClick={addtodb} className='bg-gray-800 text-zinc-100 px-6 py-4 focus:outline-none w-full text-xl font-extralight leading-10 '>Log In</button></div>
-                </form>
-            </div>
-                <div className='flex justify-start mt-8 font-mono text-lg space-x-2'>
-                    <p className='font-serif'>Not have an account?</p>
-                    <Link to={'/SignUp'}>Sign Up</Link>
+    return (
+        <>
+            <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-400 to-indigo-600">
+                <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+                    <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+                        Log In to Your Account
+                    </h2>
+                    <form className="space-y-6">
+                        <div className="relative">
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Email"
+                                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:outline-none text-gray-700"
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="relative">
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="Password"
+                                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:outline-none text-gray-700"
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            onClick={addtodb}
+                            className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 rounded-lg transition duration-300"
+                        >
+                            Log In
+                        </button>
+                    </form>
+                    <div className="mt-6 text-center">
+                        <p className="text-gray-600">
+                            Don’t have an account?{" "}
+                            <Link
+                                to="/SignUp"
+                                className="text-indigo-500 hover:underline"
+                            >
+                                Sign Up
+                            </Link>
+                        </p>
+                    </div>
                 </div>
-        </div>
-    </div>
-    </>
-  )
-}
+            </div>
+        </>
+    );
+};
 
-export default LogIn
+export default LogIn;

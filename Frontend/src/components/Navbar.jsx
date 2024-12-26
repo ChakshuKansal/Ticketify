@@ -37,12 +37,15 @@ const Navbar = () => {
     return (
         <div className={`bg-[#0C172F] h-16 px-5 text-zinc-200 text-lg flex items-center justify-between w-full font-sans fixed top-0 left-0 z-50 transition-transform duration-300 ${showNavbar ? "translate-y-0" : "-translate-y-full"}`}>
             <div className="flex items-center gap-6">
-                <div className="h-12">
-                    <img
-                        className="h-full"
-                        src="https://static.vecteezy.com/system/resources/previews/012/027/723/original/admit-one-ticket-icon-black-and-white-isolated-wite-free-vector.jpg"
-                        alt="Logo"
-                    />
+                <div className="flex items-center gap-4">
+                    <Link to="/" className="h-12">
+                        <img
+                            className="h-full"
+                            src="https://tse2.mm.bing.net/th?id=OIG4.Aw_64FWXLdDdHeDcqMZh&pid=ImgGn"
+                            alt="Logo"
+                        />
+                    </Link>
+                    <span className="text-xl font-bold hidden md:block">Ticketify</span>
                 </div>
                 <div className="hidden md:flex gap-6">
                     <Link to={"/"} className="hover:text-white transition duration-300">

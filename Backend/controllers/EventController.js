@@ -27,4 +27,18 @@ const Eventadder= async (req, res) => {
         });
     }
 }
-module.exports=Eventadder;
+
+const EventFetcher=async (req, res) => {
+    try {
+        const events = await EventSchema.find();
+        if (events.length === 0) {
+            return res.status(404).json({ "message": "No Events Till Now" });
+        }
+        res.status(200).json(events);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ "message": "Internal Server Error!" });
+    }
+}
+
+module.exports={Eventadder , EventFetcher};

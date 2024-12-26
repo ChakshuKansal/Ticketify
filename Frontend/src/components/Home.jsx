@@ -293,7 +293,7 @@ const Home = () => {
                   </div>
                   <div className="flex flex-col text-center ">
                     <div className="text-sm font-medium">Workshops</div>
-                    <div className="text-xs text-gray-500">{genreCounts["Workshop"] || 0} Events</div>
+                    <div className="text-xs text-gray-500">{genreCounts["Workshops"] || 0} Events</div>
                   </div>
                 </li>
               </li>
