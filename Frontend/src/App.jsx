@@ -5,6 +5,7 @@ import LogIn from './components/LogIn'
 import Home from './components/Home'
 import Admin from './components/Admin'
 import CreateEvent from './components/CreateEvent'
+import ProfilePage from './components/ProfilePage'
 
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
         <Route path='/LogIn' element={<LogIn/>}></Route>
         <Route path='/Admin' element={<Admin/>}></Route>
         <Route path='/Addevent' element={<CreateEvent/>}></Route>
+        <Route path='/Profile' element={<ProfilePage/>}></Route>
       </Routes>
       
     </div>

@@ -7,13 +7,20 @@ const bookTicket = async (req, res) => {
     const userId = req.user.user;
 
     try {
+        // Fetch event and user details
         const event = await Events.findById(eventId);
         const user = await User.findById(userId);
+
         if (!event || !user) {
             return res.status(400).json({ message: 'Invalid Event or User ID.' });
         }
+
         const booking = await Booking.create({
             eventId,
+            eventName: event.eventName,
+            imageURL: event.imageURL,
+            date: event.date, 
+            time: event.time,
             userId,
             bookingDate: new Date(),
         });

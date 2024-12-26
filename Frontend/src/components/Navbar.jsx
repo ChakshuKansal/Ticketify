@@ -24,7 +24,6 @@ const Navbar = () => {
             } else {
                 setShowNavbar(true); // Show navbar when scrolling up
             }
-
             setLastScrollY(currentScrollY);
         };
 
@@ -63,36 +62,53 @@ const Navbar = () => {
                     List Your Event
                 </Link>
                 {LoggedIn ? (
-                    <button
-                        type="submit"
-                        className="flex items-center gap-2 flat inverted margin-bottom-0 primary px-3 py-1 text-base"
-                        style={{
-                            "--button-color": "var(--fa-lt-gravy)",
-                            "--button-background": "var(--fa-dk-gravy)",
-                            "--button-box-shadow-width": "0",
-                            "--button-margin-bottom": "0",
-                        }}
-                        onClick={handleSignOut}
-                    >
-                        Sign Out
-                        <span class="margin-left-2xs">
-                        <svg
-        aria-hidden="true"
-        focusable="false"
-        data-prefix="fas"
-        data-icon="arrow-right-from-bracket"
-        role="img"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 512 512"
-        className="w-5 h-5 text-white"
-      >
-        <path
-          fill="currentColor"
-          d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z"
-        ></path>
-      </svg>
+                    <>
+                        <Link
+                            to="/profile"
+                            className="text-base hover:text-white transition duration-300 flex items-center"
+                        >
+                            <svg
+                                aria-hidden="true"
+                                focusable="false"
+                                data-prefix="fas"
+                                data-icon="user-circle"
+                                role="img"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 512 512"
+                                className="w-6 h-6 text-white mr-2"
+                            >
+                                <path
+                                    fill="currentColor"
+                                    d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256 256-114.6 256-256S397.4 0 256 0zm0 464c-53 0-96-43-96-96 0-52.9 42.9-96 96-96s96 43 96 96c0 53-43 96-96 96zm0-240c-44.2 0-80-35.8-80-80s35.8-80 80-80 80 35.8 80 80-35.8 80-80 80z"
+                                ></path>
+                            </svg>
+                            Profile
+                        </Link>
+                        <button
+                            type="submit"
+                            className="flex items-center gap-2 flat inverted margin-bottom-0 primary px-3 py-1 text-base"
+                            onClick={handleSignOut}
+                        >
+                            Sign Out
+                            <span className="margin-left-2xs">
+                                <svg
+                                    aria-hidden="true"
+                                    focusable="false"
+                                    data-prefix="fas"
+                                    data-icon="arrow-right-from-bracket"
+                                    role="img"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 512 512"
+                                    className="w-5 h-5 text-white"
+                                >
+                                    <path
+                                        fill="currentColor"
+                                        d="M502.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 224 192 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l210.7 0-73.4 73.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l128-128zM160 96c17.7 0 32-14.3 32-32s-14.3-32-32-32L96 32C43 32 0 75 0 128L0 384c0 53 43 96 96 96l64 0c17.7 0 32-14.3 32-32s14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32l0-256c0-17.7 14.3-32 32-32l64 0z"
+                                    ></path>
+                                </svg>
                             </span>
-                    </button>
+                        </button>
+                    </>
                 ) : (
                     <Link
                         to="/SignUp"
@@ -102,7 +118,6 @@ const Navbar = () => {
                     </Link>
                 )}
             </div>
-
         </div>
     );
 };
