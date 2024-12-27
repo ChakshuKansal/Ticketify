@@ -92,7 +92,7 @@ const Admin = () => {
   };
   return (
     <>
-    <Navbar/>
+    <Navbar token={token}/>
     <div className="h-[90vh] flex flex-col items-center justify-center bg-[url('https://4kwallpapers.com/images/walls/thumbs_2t/17018.jpg')] bg-center bg-cover">
       
       <h1 className="text-5xl font-serif font-bold text-center mb-6 text-zinc-800 p-6">  

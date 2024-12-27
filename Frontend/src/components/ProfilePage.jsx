@@ -7,6 +7,7 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
+  const token = localStorage.getItem('token');
   useEffect(() => {
     const fetchUserProfile = async () => {
       const token = localStorage.getItem('token');
@@ -58,10 +59,6 @@ const ProfilePage = () => {
     }
   };
 
-  const handleModifyBooking = (bookingId) => {
-    console.log('Modify booking:', bookingId);
-  };
-
   if (loading) {
     return <div className="text-center text-lg">Loading...</div>;
   }
@@ -72,7 +69,7 @@ const ProfilePage = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar token={token}/>
       <div className="profile-page p-6 md:p-12 bg-gray-50 min-h-screen">
         <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
           <h1 className="text-3xl font-bold mb-6 text-center text-blue-600">Your Profile</h1>
@@ -88,11 +85,11 @@ const ProfilePage = () => {
 
           <div className="bookings">
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">Your Bookings</h2>
-            {bookings.length === 0 ? (
+            {bookings && bookings.length === 0 ? (
               <p className="text-gray-500">You have no bookings yet.</p>
             ) : (
               <div className="booking-list">
-                {bookings.map((booking) => (
+                {bookings && bookings.map((booking) => (
                   <div key={booking._id} className="booking-item mb-6 p-4 border border-gray-300 rounded-lg hover:shadow-xl transition-shadow duration-300">
                     <div className='flex justify-between'>
 

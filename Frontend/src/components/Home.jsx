@@ -34,11 +34,59 @@ const Home = () => {
 
   const [events, setEvents] = useState([]);
   const [genreCounts, setGenreCounts] = useState({});
-  const token = localStorage.getItem('token');
+  const [token,setToken]=useState(localStorage.getItem("token"));
 
-  useEffect(() => {
+  useEffect(()=>{
     fetchEvents();
+  })
+
+  useEffect(()=>{
+    setToken(localStorage.getItem("token"));
+  },)
+  
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      // setLoggedIn(false); // No token, user is logged out
+      return;
+    }
+
+    // Check token validity every 10 seconds
+    const interval = setInterval(() => {
+      authenticateToken();
+    }, 10000);
+
+    return () => clearInterval(interval); // Clean up interval when the component is unmounted
   }, []);
+
+
+  const authenticateToken = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        return; 
+    }
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/validate-token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token }),
+    });
+
+        if (response.ok) {
+            const result = await response.json();
+            if (!result.valid) {
+                throw new Error('Invalid token');
+            }
+            console.log('User is authenticated');
+        } else {
+            throw new Error('Token validation failed');
+        }
+    } catch (error) {
+        alert('Session expired. Please log in again.');
+        localStorage.removeItem('token');
+        setToken(-1);
+    }
+};
+
 
   const fetchEvents = async () => {
     try {
@@ -107,7 +155,7 @@ const Home = () => {
   return (
     <>
       <div className="h-full">
-        <Navbar />
+        <Navbar  token={token}/>
         <Caraousel />
         <div className="">
           <div className="mx-5 flex justify-center items-center sm:justify-start sm:items-start flex-col">

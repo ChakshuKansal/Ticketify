@@ -22,7 +22,7 @@ const Footer = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        if (data.message === "Email already exists") {
+        if (data.message === "Email Already In Use!") {
           setError("You are already a member.");
         } else {
           setError("Failed to subscribe. Please try again later.");
@@ -34,7 +34,7 @@ const Footer = () => {
       return;
     } catch (error) {
       console.log(error);
-      alert("Something went wrong. Please try again.");
+      alert("Something went Wrong!\nPlease try again later.");
     }
     finally {
       setLoading(false);

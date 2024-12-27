@@ -24,6 +24,27 @@ app.post('/book-ticket', authenticateToken, bookTicket );
 app.get("/Events", EventFetcher );
 app.get('/user-profile', authenticateToken,UserDetails );
 
+const jwt = require('jsonwebtoken');
+
+app.post('/api/auth/validate-token', (req, res) => {
+    const { token } = req.body;
+    if (!token) {
+        return res.status(400).json({ valid: false, message: 'Token missing' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_Secret_key);
+        res.json({ valid: true, user: decoded });
+    } catch (err) {
+        if (err.name === 'TokenExpiredError') {
+            res.status(401).json({ valid: false, message: 'Token expired' });
+        } else {
+            res.status(403).json({ valid: false, message: 'Invalid token' });
+        }
+    }
+});
+
+
 app.delete('/cancel-booking/:bookingId', authenticateToken, cancelTicket);
 
 app.listen(process.env.PORT, () => {

@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Navbar = () => {
-    const token = localStorage.getItem("token");
-    const isLoggedIn = !!token;
-    const [LoggedIn, setLog] = useState(isLoggedIn);
+const Navbar = ({ token }) => {
+    const [LoggedIn, setLog] = useState(false);  
     const [showNavbar, setShowNavbar] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
     const navigate = useNavigate();
 
     const handleSignOut = () => {
         localStorage.removeItem("token");
-        setLog(false);
-        navigate('/');
+        setLog(false);  
+        navigate('/'); 
     };
+
+    useEffect(() => {
+        console.log(token);
+        if (token) {
+            setLog(true);
+        } else {
+            setLog(false);
+            handleSignOut();
+        }
+    }, [token]);
 
     useEffect(() => {
         const handleScroll = () => {
