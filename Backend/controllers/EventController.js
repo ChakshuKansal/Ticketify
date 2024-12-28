@@ -61,12 +61,7 @@ const cancelEvent = async (req, res) => {
       return res.status(404).json({ message: 'Event not found' });
     }
 
-    if (event.status === 'canceled') {
-      return res.status(400).json({ message: 'Event is already canceled' });
-    }
-
-    event.status = 'canceled';
-    await event.save();
+    await Event.findByIdAndDelete(eventId);
 
     res.status(200).json({ message: 'Event canceled successfully' });
   } catch (error) {
@@ -75,4 +70,33 @@ const cancelEvent = async (req, res) => {
   }
 };
 
-module.exports = { Eventadder, EventFetcher ,cancelEvent};
+const modifyEvent = async (req, res) => {
+  const { eventId } = req.params;
+  const { eventName, description, price, location, date, time, imageURL } = req.body;
+
+  try {
+    const event = await Event.findById(eventId);
+    
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    event.eventName = eventName || event.eventName;
+    event.description = description || event.description;
+    event.price = price || event.price;
+    event.location = location || event.location;
+    event.date = date || event.date;
+    event.time = time || event.time;
+    event.imageURL = imageURL || event.imageURL;
+
+    await event.save();
+
+    res.status(200).json({ message: 'Event modified successfully', event });
+  } catch (error) {
+    console.error('Error modifying event:', error);
+    res.status(500).json({ message: 'Failed to modify event' });
+  }
+};
+
+
+module.exports = { Eventadder, EventFetcher ,cancelEvent,modifyEvent};

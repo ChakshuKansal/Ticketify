@@ -4,9 +4,22 @@ import Navbar from './Navbar';
 const ProfilePage = () => {
   const [userData, setUserData] = useState(null);
   const [bookings, setBookings] = useState([]);
-  const [publishedEvents, setPublishedEvents] = useState([]); // New state for published events
+  const [publishedEvents, setPublishedEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const [editingEvent, setEditingEvent] = useState(null);
+  const [updatedEventData, setUpdatedEventData] = useState({
+    eventName: '',
+    description: '',
+    imageURL: '',
+    location: '',
+    price: '',
+    date: '',
+    time: '',
+    duration: '',
+    eventType: '',
+    eventCat: '',
+  });
 
   const token = localStorage.getItem('token');
 
@@ -25,7 +38,7 @@ const ProfilePage = () => {
           const data = await response.json();
           setUserData(data.user);
           setBookings(data.bookings);
-          setPublishedEvents(data.publishedEvents); // Set the published events
+          setPublishedEvents(data.publishedEvents);
         } else {
           console.error('Unexpected response:', await response.text());
           setHasError(true);
@@ -65,6 +78,45 @@ const ProfilePage = () => {
       console.error('Error canceling booking:', error);
       alert('Failed to cancel booking.');
     }
+  };
+
+  const handleModifyEvent = async (eventId) => {
+    const confirmModify = window.confirm('Are you sure you want to modify this event?');
+    if (!confirmModify) return;
+
+    try {
+      const response = await fetch(`http://localhost:5000/modify-event/${eventId}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedEventData),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        alert(data.message);
+        setPublishedEvents((prevEvents) =>
+          prevEvents.map((event) =>
+            event._id === eventId ? { ...event, ...updatedEventData } : event
+          )
+        );
+        setEditingEvent(null);
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error('Error modifying event:', error);
+      alert('Failed to modify event.');
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUpdatedEventData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleCancelEvent = async (eventId) => {
@@ -179,7 +231,28 @@ const ProfilePage = () => {
                       </div>
                       <div className="mt-4 flex space-x-4">
                         <button
+                          onClick={() => {
+                            setEditingEvent(event);
+                            setUpdatedEventData({
+                              eventName: event.eventName,
+                              description: event.description,
+                              imageURL: event.imageURL,
+                              location: event.location,
+                              price: event.price,
+                              date: event.date,
+                              time: event.time,
+                              duration: event.duration,
+                              eventType: event.eventType,
+                              eventCat: event.eventCat,
+                            });
+                          }}
+                          className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition-colors duration-300"
+                        >
+                          Modify Event
+                        </button>
+                        <button
                           onClick={() => handleCancelEvent(event._id)}
+                          aria-label="Cancel event"
                           className="bg-red-500 text-white p-2 rounded-md hover:bg-red-600 transition-colors duration-300"
                         >
                           Cancel Event
@@ -191,6 +264,135 @@ const ProfilePage = () => {
               </div>
             )}
           </div>
+
+          {editingEvent && (
+            <div className="edit-event-form p-6 bg-gray-100 rounded-lg shadow-md mt-8">
+              <h2 className="text-2xl font-semibold text-gray-800 mb-4">Edit Event</h2>
+              <form onSubmit={(e) => { e.preventDefault(); handleModifyEvent(editingEvent._id); }}>
+                <div className="mb-4">
+                  <label htmlFor="eventName" className="block text-sm font-medium text-gray-700">Event Name</label>
+                  <input
+                    type="text"
+                    id="eventName"
+                    name="eventName"
+                    value={updatedEventData.eventName}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    value={updatedEventData.description}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="imageURL" className="block text-sm font-medium text-gray-700">Image URL</label>
+                  <input
+                    type="text"
+                    id="imageURL"
+                    name="imageURL"
+                    value={updatedEventData.imageURL}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
+                  <input
+                    type="text"
+                    id="location"
+                    name="location"
+                    value={updatedEventData.location}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="price" className="block text-sm font-medium text-gray-700">Price</label>
+                  <input
+                    type="number"
+                    id="price"
+                    name="price"
+                    value={updatedEventData.price}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="date" className="block text-sm font-medium text-gray-700">Date</label>
+                  <input
+                    type="date"
+                    id="date"
+                    name="date"
+                    value={updatedEventData.date}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="time" className="block text-sm font-medium text-gray-700">Time</label>
+                  <input
+                    type="time"
+                    id="time"
+                    name="time"
+                    value={updatedEventData.time}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="duration" className="block text-sm font-medium text-gray-700">Duration</label>
+                  <input
+                    type="text"
+                    id="duration"
+                    name="duration"
+                    value={updatedEventData.duration}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="eventType" className="block text-sm font-medium text-gray-700">Event Type</label>
+                  <input
+                    type="text"
+                    id="eventType"
+                    name="eventType"
+                    value={updatedEventData.eventType}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="eventCat" className="block text-sm font-medium text-gray-700">Event Category</label>
+                  <input
+                    type="text"
+                    id="eventCat"
+                    name="eventCat"
+                    value={updatedEventData.eventCat}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition-colors duration-300"
+                >
+                  Save Changes
+                </button>
+              </form>
+              <button
+                onClick={() => setEditingEvent(null)}
+                className="mt-4 bg-gray-500 text-white p-2 rounded-md hover:bg-gray-600 transition-colors duration-300"
+              >
+                Cancel Edit
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>

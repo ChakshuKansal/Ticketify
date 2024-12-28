@@ -5,7 +5,7 @@ const connectDb = require("./config/connectDb");
 const { configDotenv } = require("dotenv");
 const { SignUp, Login, authenticateToken,UserDetails } = require("./controllers/AuthController");
 const Subscriber = require("./controllers/SubController");
-const {Eventadder,EventFetcher, cancelEvent} = require("./controllers/EventController");
+const {Eventadder,EventFetcher, cancelEvent, modifyEvent} = require("./controllers/EventController");
 const { bookTicket, cancelTicket } = require('./controllers/BookingController'); 
 const jwt = require('jsonwebtoken');
 
@@ -27,6 +27,7 @@ app.get('/user-profile', authenticateToken,UserDetails );
 
 
 
+
 app.post('/api/auth/validate-token', (req, res) => {
     const { token } = req.body;
     if (!token) {
@@ -45,6 +46,7 @@ app.post('/api/auth/validate-token', (req, res) => {
     }
 });
 
+app.put("/modify-event/:eventId", authenticateToken, modifyEvent);
 app.delete('/cancel-booking/:bookingId', authenticateToken, cancelTicket);
 app.delete('/cancel-event/:eventId', authenticateToken, cancelEvent);
 
