@@ -5,8 +5,9 @@ const connectDb = require("./config/connectDb");
 const { configDotenv } = require("dotenv");
 const { SignUp, Login, authenticateToken,UserDetails } = require("./controllers/AuthController");
 const Subscriber = require("./controllers/SubController");
-const {Eventadder,EventFetcher} = require("./controllers/EventController");
+const {Eventadder,EventFetcher, cancelEvent} = require("./controllers/EventController");
 const { bookTicket, cancelTicket } = require('./controllers/BookingController'); 
+const jwt = require('jsonwebtoken');
 
 configDotenv();
 connectDb();
@@ -18,13 +19,13 @@ app.use(cors({ origin: "*" }));
 app.post("/letter", Subscriber);
 app.post("/SignUp", SignUp);
 app.post("/LogIn", Login);
-app.post("/Event", Eventadder);
+app.post("/Event", authenticateToken, Eventadder);;
 app.post('/book-ticket', authenticateToken, bookTicket );
 
 app.get("/Events", EventFetcher );
 app.get('/user-profile', authenticateToken,UserDetails );
 
-const jwt = require('jsonwebtoken');
+
 
 app.post('/api/auth/validate-token', (req, res) => {
     const { token } = req.body;
@@ -44,8 +45,8 @@ app.post('/api/auth/validate-token', (req, res) => {
     }
 });
 
-
 app.delete('/cancel-booking/:bookingId', authenticateToken, cancelTicket);
+app.delete('/cancel-event/:eventId', authenticateToken, cancelEvent);
 
 app.listen(process.env.PORT, () => {
     console.log("Running on http://localhost:5000");

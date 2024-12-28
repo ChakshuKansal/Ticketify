@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const EventSchema = new mongoose.Schema(
   {
     eventName: {
@@ -16,7 +17,7 @@ const EventSchema = new mongoose.Schema(
     },
     location: {
       type: String,
-      default:"Online",
+      default: "Online",
       trim: true,
     },
     price: {
@@ -43,6 +44,12 @@ const EventSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    userId: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'User',
+      required: true
+    }, 
+    status: { type: String, default: 'active' },
   },
   { timestamps: true }
 );

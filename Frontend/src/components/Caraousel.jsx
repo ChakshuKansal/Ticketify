@@ -50,7 +50,7 @@ const Carousel = () => {
             className="w-full h-[40vh] flex-shrink-0 bg-cover bg-center"
           >
             <div className="h-full flex items-center justify-center bg-black bg-opacity-50">
-              <h2 className="text-white text-xl font-bold">{slide.text}</h2>
+              <h2 className="text-white text-xl font-bold text-center">{slide.text}</h2>
             </div>
           </div>
         ))}

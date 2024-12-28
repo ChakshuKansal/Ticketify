@@ -12,7 +12,7 @@ const CreateEvent = ({ showevent, eventType }) => {
     eventCat: 'Comedy',
     location: '',
     imageURL: '',
-    price: '', 
+    price: '',
     description: '',
   });
 
@@ -43,12 +43,16 @@ const CreateEvent = ({ showevent, eventType }) => {
       }
 
       setIsSubmitting(true);
-      
+
 
       try {
+        const token = localStorage.getItem('token'); 
         const res = await fetch('http://localhost:5000/Event', {
-          method: 'post',
-          headers: { 'Content-Type': 'application/json' },
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
           body: JSON.stringify(formData),
         });
 
@@ -64,7 +68,7 @@ const CreateEvent = ({ showevent, eventType }) => {
             eventType: eventType,
             eventCat: 'Comedy',
             location: '',
-            imageURL: '', 
+            imageURL: '',
             price: '',
             description: '',
           });
