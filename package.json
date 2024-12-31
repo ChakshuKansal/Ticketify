@@ -8,13 +8,14 @@
     "mongoose": "^8.8.2",
     "nodemon": "^3.1.7"
   },
-  "name": "frontend",
+  "name": "ticketify",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon Backend/index.js",
-    "build":"npm install && npm install --prefix Frontend && npm run build --prefix Frontend"
+    "dev": "nodemon Backend/index.js", 
+    "build": "npm install && npm install --prefix Frontend && npm run build --prefix Frontend",
+    "start": "node Backend/index.js" 
   },
   "keywords": [],
   "author": "",
