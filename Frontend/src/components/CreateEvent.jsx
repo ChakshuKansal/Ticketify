@@ -58,7 +58,6 @@ const CreateEvent = ({ showevent, eventType }) => {
 
         if (res.ok) {
           const result = await res.json();
-          console.log('Server Response:', result);
           alert('Event created successfully!');
           setFormData({
             eventName: '',

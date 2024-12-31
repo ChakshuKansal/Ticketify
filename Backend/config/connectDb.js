@@ -1,8 +1,10 @@
 const mongoose=require('mongoose');
+require("dotenv").config();
 
 const connectDb= async()=>{
     try {
-        const res =await mongoose.connect("mongodb+srv://admin:admin@cluster0.nmkhu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
+        const dbURL = process.env.MONGO_URI;
+        const res =await mongoose.connect(dbURL);
         if(!res){
             return console.log("Error");
         }

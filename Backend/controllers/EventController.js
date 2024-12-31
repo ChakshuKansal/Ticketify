@@ -7,8 +7,6 @@ const Eventadder = async (req, res) => {
       if (!req.user || !req.user.user) {
         return res.status(401).json({ message: 'User not authenticated' });
       }
-      console.log(req.user.user)
-
       const userId = req.user.user;
       if (!userId) {
         return res.status(400).json({ message: 'User ID is missing' });
