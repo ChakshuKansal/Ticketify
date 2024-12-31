@@ -63,7 +63,7 @@ const Home = () => {
       return;
     }
     try {
-      const response = await fetch('http://localhost:5000/api/auth/validate-token', {
+      const response = await fetch('https://ticketify-ab9o.onrender.com/api/auth/validate-token', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token }),
@@ -88,7 +88,7 @@ const Home = () => {
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch("http://localhost:5000/Events", {
+      const response = await fetch("https://ticketify-ab9o.onrender.com/Events", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -127,7 +127,7 @@ const Home = () => {
   const handleBookTicket = async (eventId) => {
     try {
       console.log(eventId)
-      const res = await fetch('http://localhost:5000/book-ticket', {
+      const res = await fetch('https://ticketify-ab9o.onrender.com/book-ticket', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

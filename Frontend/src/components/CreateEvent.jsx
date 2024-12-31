@@ -47,7 +47,7 @@ const CreateEvent = ({ showevent, eventType }) => {
 
       try {
         const token = localStorage.getItem('token'); 
-        const res = await fetch('http://localhost:5000/Event', {
+        const res = await fetch('https://ticketify-ab9o.onrender.com/Event', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

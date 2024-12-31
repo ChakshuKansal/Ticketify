@@ -39,7 +39,7 @@ const SignUp = () => {
         e.preventDefault();
         updatedata();
         try {
-            const res = await fetch("http://localhost:5000/SignUp", {
+            const res = await fetch("https://ticketify-ab9o.onrender.com/SignUp", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),

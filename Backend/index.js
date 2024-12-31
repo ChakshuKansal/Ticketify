@@ -19,16 +19,16 @@ import {
 } from "./controllers/EventController.js";
 import { bookTicket, cancelTicket } from "./controllers/BookingController.js";
 
-dotenvConfig();
-connectDb();
 
 const app = express();
 const _dirname = path.resolve();
+dotenvConfig();
+connectDb();
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: "*" }));
+app.use(cors({ origin: "https://ticketify-ab9o.onrender.com/" }));
 
 // Routes
 app.post("/letter", Subscriber);

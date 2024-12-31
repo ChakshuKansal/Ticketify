@@ -28,7 +28,7 @@ const ProfilePage = () => {
       const token = localStorage.getItem('token');
       if (!token) return;
       try {
-        const response = await fetch('http://localhost:5000/user-profile', {
+        const response = await fetch('https://ticketify-ab9o.onrender.com/user-profile', {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -59,7 +59,7 @@ const ProfilePage = () => {
     if (!confirmCancel) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/cancel-booking/${bookingId}`, {
+      const response = await fetch(`https://ticketify-ab9o.onrender.com/cancel-booking/${bookingId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -85,7 +85,7 @@ const ProfilePage = () => {
     if (!confirmModify) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/modify-event/${eventId}`, {
+      const response = await fetch(`https://ticketify-ab9o.onrender.com/modify-event/${eventId}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -124,7 +124,7 @@ const ProfilePage = () => {
     if (!confirmCancel) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/cancel-event/${eventId}`, {
+      const response = await fetch(`https://ticketify-ab9o.onrender.com/cancel-event/${eventId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,

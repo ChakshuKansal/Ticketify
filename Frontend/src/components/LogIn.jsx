@@ -33,7 +33,7 @@ const LogIn = () => {
         e.preventDefault();
         updatedata();
         try {
-            const res = await fetch("http://localhost:5000/LogIn", {
+            const res = await fetch("https://ticketify-ab9o.onrender.com/LogIn", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),

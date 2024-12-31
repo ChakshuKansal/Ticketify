@@ -13,7 +13,7 @@ const Footer = () => {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("http://localhost:5000/letter", {
+      const res = await fetch("https://ticketify-ab9o.onrender.com/letter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ letter }),

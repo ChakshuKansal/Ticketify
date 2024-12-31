@@ -30,7 +30,6 @@ const Schemes = ({ LoggedIn }) => {
         </p>
       </div>
 
-      {/* On-ground Events Section */}
       <div className="text-center mt-10 px-4">
         <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">On-ground Events</h1>
         <div className="h-auto lg:h-[540px] max-w-sm lg:w-[400px] rounded-xl overflow-hidden shadow-lg mt-10 mx-auto bg-white">
@@ -66,7 +65,6 @@ const Schemes = ({ LoggedIn }) => {
         </div>
       </div>
 
-      {/* Digital Events Section */}
       <div className="text-center mt-10 px-4">
         <h1 className="text-2xl lg:text-3xl font-bold text-gray-800">Digital Events</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 px-4 mt-10">
@@ -128,7 +126,6 @@ const Schemes = ({ LoggedIn }) => {
         )}
       </div>
 
-      {/* Create Event Section */}
       <div ref={targetadder}>
         {Addevent && <CreateEvent showevent={Showevent} eventType={eventType} />}
       </div>
