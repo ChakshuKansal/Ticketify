@@ -45,6 +45,11 @@ const SignUp = () => {
             setIsFormValid(false);
             return false;
         }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setError('Invalid email format.');
+            return false;
+        }
         setIsFormValid(true);
         return true;
     };
